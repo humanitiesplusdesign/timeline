@@ -9,14 +9,8 @@ import api
 from pprint import PrettyPrinter
 pprint = PrettyPrinter(indent=3, width=100)
 
-
-def latlon2xy(lat, lon):
-    y = lat * 0.125
-    x = lon * -0.125
-    return x, y
-
-def ms2z(ms):
-    return (ms/1000000.0 + 6000.0) * .25
+class foo:
+    pass
 
 def application(environ, start_response):
     colors = [
@@ -39,11 +33,6 @@ def application(environ, start_response):
             [0,44,0,1],
             [50,0,0,2],
         ]
-        for i in range(len(events)):
-            x, z = latlon2xy(events[i][0], events[i][1])
-            events[i][0] = x
-            events[i][2] = z
-            events[i][1] = 0
     print >> sys.stderr, "DEBUG evs:", evs
     for ev in evs:
         lat = None
@@ -59,10 +48,8 @@ def application(environ, start_response):
                 ms = ev['Date']['ms']
 
         if lat and ms:
-            x, z = latlon2xy(lat, lon)
-            y = 0#ms2z(ms)
-            print >> sys.stderr, "EVENT:", ev['MPlace'], x, y, z
-            events.append([x, y, z, 2])
+            events.append([lat, lon, ms, 2])
+            print >> sys.stderr, "EVENT:", events[-1]
 
     template = "/template/level.xml"
     f = open(DOCROOT + template)

@@ -52,7 +52,7 @@
 		<object id="world" mesh="#square" scale_x="22.487" scale_y="10" scale_z="10" material="#worldmap" />
 
         <py:for each="ev in events">
-            <object mesh="#sphere" scale_x=".1" scale_y=".1" scale_z=".1" loc_x="${ev[0]}" loc_y="${ev[1]}" loc_z="${ev[2]}" material="#color_${ev[3]}"/>
+            <object mesh="#sphere" scale_x=".1" scale_y=".1" scale_z=".1" loc_x="${ev[1]*-0.125}" loc_y="${ev[2]*0}" loc_z="${ev[0]*0.125}" material="#color_${ev[3]}"/>
         </py:for>
 		
 		<light id="mainlight" loc_x="0" loc_y="15" loc_z="10" rot_x="-1.3"  attenuation_constant="0.5" type="L_POINT" />
