@@ -124,4 +124,9 @@ doc.onLoad = function(){
         mouseovercanvas = false;
     }
 }
-doc.load("level.xml");
+var querystring = "";
+var i = document.URL.indexOf("?");
+if (i > -1) {
+    querystring = document.URL.substr(i);
+}
+doc.load('level.xml'+querystring);

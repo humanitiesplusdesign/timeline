@@ -16,7 +16,7 @@ def latlon2xy(lat, lon):
     return x, y
 
 def ms2z(ms):
-    return (ms/1000000.0 + 6000.0) * .25
+    return (ms/1000000.0 + 6000.0) * .25 + 120
 
 def application(environ, start_response):
     colors = [
@@ -24,20 +24,22 @@ def application(environ, start_response):
         "#00ff00",
         "#0000ff",
         ]
-
     events = []
-    evs = list(mong.Event.find({"Person":"John Yorke [GT][0001]"}))
+##    evs = list(mong.Event.find({"Person":"John Yorke [GT][0001]"}))
+    output = api.mongoApi(environ)
+    evs = json.loads(output)['result']
+    print >> sys.stderr, "DEBUG evs:", evs
     for ev in evs:
         lat = None
         ms = None
         if ev['Type'] == "Arrival":
-            if "MPlace" in ev:
+            if "MPlace" in ev and ev['MPlace']:
                 place = mong.MPlace.find_one({"_id":ev['MPlace']})
                 if place and "Coords" in place:
                     lat, lon = place['Coords'].split(",")
                     lat = float(lat)
                     lon = float(lon)
-            if "Date" in ev:
+            if "Date" in ev and ev['Date']:
                 ms = ev['Date']['ms']
 
         if lat and ms:
