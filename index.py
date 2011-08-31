@@ -1,16 +1,6 @@
 import sys, os, json
 from genshi.template import MarkupTemplate
 DOCROOT = os.path.dirname(__file__)
-sys.path[:0] = [os.path.join(DOCROOT, "../data")]
-import pymongo as pm
-con = pm.Connection()
-mong = con.mong
-import api
-from pprint import PrettyPrinter
-pprint = PrettyPrinter(indent=3, width=100)
-
-seqTypes = (type([]), type(()))
-stringTypes = (type(''), type(u''))
 
 def application(environ, start_response):
     template = "/template/timeline.html"
