@@ -38,7 +38,7 @@
             var mouseovercanvas;
             var hoverobj;
             
-            
+            var mouseLastX=600;
             function mouselook(){
                 if (mouseovercanvas) {
                     var mousepos = mouse.getMousePosition();
@@ -55,14 +55,20 @@
                     camera.setRotX(1.56 - trans[1] * inc);
                     camera.setRotZ(-trans[0] * inc);
                     var width = document.getElementById('canvas').offsetWidth;
-                    if (mousepos.x < width * 0.3) {
-                        var turn = Math.pow((mousepos.x - width * 0.3) / (width * 0.3), 2) * 0.005 * (now - lasttime);
+                    if (mousepos.x < width * 0.225) {
+                        var turn = Math.pow((mousepos.x - width * 0.25) / (width * 0.25), 2) * 0.005 * (now - lasttime);
                         camera.setRotY(camerarot.y + turn);
                     }
-                    if (mousepos.x > width * 0.7) {
-                        var turn = Math.pow((mousepos.x - width * 0.7) / (width * 0.3), 2) * 0.005 * (now - lasttime);
-                        camera.setRotY(camerarot.y - turn);
+                    else {
+                        if (mousepos.x > width * 0.775) {
+                            var turn = Math.pow((mousepos.x - width * 0.75) / (width * 0.25), 2) * 0.005 * (now - lasttime);
+                            camera.setRotY(camerarot.y - turn);
+                        }
+                        else {
+                            camera.setRotY(camerarot.y + (mouseLastX-mousepos.x) * 0.001)
+                        }
                     }
+                    mouseLastX = mousepos.x
                 }
             }
             
