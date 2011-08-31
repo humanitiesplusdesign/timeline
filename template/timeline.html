@@ -37,8 +37,7 @@
             var keys = new GLGE.KeyInput();
             var mouseovercanvas;
             var hoverobj;
-            
-            var mouseLastX=600;
+            var mouseLastX=parseInt(document.getElementById("container").style.width.replace("px", ""))/2;
             function mouselook(){
                 if (mouseovercanvas) {
                     var mousepos = mouse.getMousePosition();
