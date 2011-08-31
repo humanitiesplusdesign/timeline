@@ -52,7 +52,7 @@
 	<camera id="maincamera" loc_y="20" loc_x="1" loc_z="8" rot_order="ROT_XZY" xtype="C_ORTHO" rot_z="0" rot_x="1.56" rot_y="3.141" />
 
 	<scene id="mainscene" camera="#maincamera" background_color="#888" ambient_color="#fff" fog_type="FOG_NONE">
-		<object id="wallobject" mesh="#square" scale_x="10" scale_y="10" scale_z="10" rot_x="1.57" material="#worldmap" />
+		<object id="world" mesh="#square" scale_x="10" scale_y="10" scale_z="10" rot_x="1.57" material="#worldmap" />
 
         <py:for each="ev in events">
             <object mesh="#sphere" scale_x=".1" scale_y=".1" scale_z=".1" loc_x="${ev[0]}" loc_y="${ev[1]}" loc_z="${ev[2]}" material="#special"/>

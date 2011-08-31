@@ -4,12 +4,23 @@
 var doc = new GLGE.Document();
 doc.onLoad = function(){
     //create the renderer
-    var gameRenderer = new GLGE.Renderer(document.getElementById('canvas'));
+    var canvas = document.getElementById('canvas');
+
+    var world_z = 0;
+    var glgedoc = this;
+    canvas.onmousewheel = function( e ){
+        world_z += e.wheelDelta * 0.0025;
+        glgedoc.getElement("world").setLocZ(world_z)
+//        console.log("WHEEL ev:", e.wheelDelta, glgedoc.getElement("world"));
+        return false;
+    }
+    
+    var gameRenderer = new GLGE.Renderer(canvas);
     gameScene = new GLGE.Scene();
     gameScene = doc.getElement("mainscene");
     gameRenderer.setScene(gameScene);
     
-    var mouse = new GLGE.MouseInput(document.getElementById('canvas'));
+    var mouse = new GLGE.MouseInput(canvas);
     var keys = new GLGE.KeyInput();
     var mouseovercanvas;
     var hoverobj;
@@ -21,7 +32,7 @@ doc.onLoad = function(){
             mousepos.y = mousepos.y - document.getElementById("container").offsetTop;
             var camera = gameScene.camera;
             camerarot = camera.getRotation();
-            inc = (mousepos.y - (document.getElementById('canvas').offsetHeight / 2)) / 500;
+            inc = (mousepos.y - (canvas.offsetHeight / 2)) / 500;
             //      var trans=camera.getRotMatrix().x([0,0,-1,1]);
             var trans = GLGE.mulMat4Vec4(camera.getRotMatrix(), [0, 0, -1, 1]);
             var mag = Math.pow(Math.pow(trans[0], 2) + Math.pow(trans[1], 2), 0.5);
@@ -29,7 +40,7 @@ doc.onLoad = function(){
             trans[1] = trans[1] / mag;
             camera.setRotX(1.56 - trans[1] * inc);
             camera.setRotZ(-trans[0] * inc);
-            var width = document.getElementById('canvas').offsetWidth;
+            var width = canvas.offsetWidth;
             if (mousepos.x < width * 0.225) {
                 var turn = Math.pow((mousepos.x - width * 0.25) / (width * 0.25), 2) * 0.005 * (now - lasttime);
                 camera.setRotY(camerarot.y + turn);
