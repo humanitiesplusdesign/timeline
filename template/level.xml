@@ -35,9 +35,11 @@
 		<material_layer texture="#wallcolour" mapinput="UV1" mapto="M_COLOR" />
 	</material>
 
-    <material id="worldmap" specular="0.1" emit="0.1">
+    <material id="worldmap" specular="0" color="#111" >
         <texture id="worldmap_tex" src="images/world.jpg" />
-        <material_layer texture="#worldmap_tex" mapinput="UV1" mapto="M_COLOR" />
+        <material_layer id="worldmap_ml" texture="#worldmap_tex" mapinput="UV1" mapto="M_COLOR" />
+        <texture_camera camera="#maincamera" id="watercolor1"  />
+        <material_layer texture="#watercolor1" mapinput="MAP_VIEW" scale_x="2" mapto="M_COLOR" alpha="0.4" />
     </material>
 
     <material id="yellow" specular="0.4" color="#ffff00">
