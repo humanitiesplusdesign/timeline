@@ -11,8 +11,8 @@ pprint = PrettyPrinter(indent=3, width=100)
 
 
 def latlon2xy(lat, lon):
-    x = (lat-40)
-    y = (lon-12)
+    y = lat * 0.125
+    x = lon * -0.125
     return x, y
 
 def ms2z(ms):
@@ -28,7 +28,22 @@ def application(environ, start_response):
     output = api.mongoApi(environ)
     evs = json.loads(output)['result']
     if not evs:
-        evs = list(mong.Event.find({"Person":"John Yorke [GT][0001]"}))
+##        events = [
+##            [40.71455000, -74.00712400,0,0],
+##            [53.55, 13.27, 0, 1],
+##            [31.07, 46.22, 0, 2],
+##        ]
+        events = [
+            [40.715,-74,0,0],
+            [0,0,0,0],
+            [0,44,0,1],
+            [50,0,0,2],
+        ]
+        for i in range(len(events)):
+            x, z = latlon2xy(events[i][0], events[i][1])
+            events[i][0] = x
+            events[i][2] = z
+            events[i][1] = 0
     print >> sys.stderr, "DEBUG evs:", evs
     for ev in evs:
         lat = None
@@ -44,8 +59,8 @@ def application(environ, start_response):
                 ms = ev['Date']['ms']
 
         if lat and ms:
-            x, y = latlon2xy(lat, lon)
-            z = ms2z(ms)
+            x, z = latlon2xy(lat, lon)
+            y = 0#ms2z(ms)
             print >> sys.stderr, "EVENT:", ev['MPlace'], x, y, z
             events.append([x, y, z, 2])
 

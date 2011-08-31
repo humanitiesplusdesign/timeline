@@ -10,7 +10,7 @@ doc.onLoad = function(){
     var glgedoc = this;
     canvas.onmousewheel = function( e ){
         world_z += e.wheelDelta * 0.0025;
-        glgedoc.getElement("world").setLocZ(world_z)
+        glgedoc.getElement("world").setLocY(world_z)
 //        console.log("WHEEL ev:", e.wheelDelta, glgedoc.getElement("world"));
         return false;
     }
