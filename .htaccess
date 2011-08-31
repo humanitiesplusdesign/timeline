@@ -1,0 +1,7 @@
+<FilesMatch ".*\.py">
+Options ExecCGI FollowSymLinks
+Order allow,deny
+Allow from all
+</FilesMatch>
+
+AddHandler wsgi-script .py
