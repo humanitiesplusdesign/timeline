@@ -9,8 +9,10 @@ import api
 from pprint import PrettyPrinter
 pprint = PrettyPrinter(indent=3, width=100)
 
-class foo:
-    pass
+class foo(object):
+    def __init__(self, *args, **kw):
+        for k, v in kw.items():
+            setattr(self, k, v)
 
 def application(environ, start_response):
     colors = [
@@ -28,10 +30,10 @@ def application(environ, start_response):
 ##            [31.07, 46.22, 0, 2],
 ##        ]
         events = [
-            [40.715,-74,0,0],
-            [0,0,0,0],
-            [0,44,0,1],
-            [50,0,0,2],
+            foo(lat=40.715, lon=-74, ms=0, color=0),
+            foo(lat=0, lon=0, ms=0, color=0),
+            foo(lat=0, lon=44, ms=0, color=1),
+            foo(lat=50, lon=0, ms=0, color=2),
         ]
     print >> sys.stderr, "DEBUG evs:", evs
     for ev in evs:
@@ -48,7 +50,12 @@ def application(environ, start_response):
                 ms = ev['Date']['ms']
 
         if lat and ms:
-            events.append([lat, lon, ms, 2])
+            nu = foo()
+            nu.lat = lat
+            nu.lon = lon
+            nu.ms = ms
+            nu.color = 0
+            events.append(foo())
             print >> sys.stderr, "EVENT:", events[-1]
 
     template = "/template/level.xml"
