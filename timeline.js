@@ -5,7 +5,7 @@ var doc = new GLGE.Document();
 doc.onLoad = function(){
     //create the renderer
     var canvas = document.getElementById('canvas');
-
+    var mouse_enabled = 1;
     var world_z = 0;
     var glgedoc = this;
     canvas.onmousewheel = function( e ){
@@ -26,6 +26,7 @@ doc.onLoad = function(){
     var hoverobj;
     var mouseLastX = parseInt(document.getElementById("container").style.width.replace("px", "")) / 2;
     function mouselook(){
+        if (!mouse_enabled) return;
         if (mouseovercanvas) {
             var mousepos = mouse.getMousePosition();
             mousepos.x = mousepos.x - document.getElementById("container").offsetLeft;
@@ -58,6 +59,7 @@ doc.onLoad = function(){
         }
     }
     
+    var M_debounce=0;
     function checkkeys(){
         var camera = gameScene.camera;
         camerapos = camera.getPosition();
@@ -71,6 +73,16 @@ doc.onLoad = function(){
         var yinc = 0;
         var xinc = 0;
         var zinc = 0;
+        if (keys.isKeyPressed(GLGE.KI_SPACE)) {
+            if (!M_debounce) {
+                mouse_enabled ^= 1;
+                console.log("mouse_enabled:", mouse_enabled, keys)
+            }
+            M_debounce = 1;
+        } 
+        else {
+            M_debounce = 0;
+        }
         if (keys.isKeyPressed(GLGE.KI_W)) {
             yinc = yinc + parseFloat(trans[1]);
             xinc = xinc + parseFloat(trans[0]);
@@ -110,6 +122,7 @@ doc.onLoad = function(){
     function render(){
         now = parseInt(new Date().getTime());
         frameratebuffer = Math.round(((frameratebuffer * 9) + 1000 / (now - lasttime)) / 10);
+//        console.log("Frame Rate:", frameratebuffer);
         mouselook();
         checkkeys();
         gameRenderer.render();

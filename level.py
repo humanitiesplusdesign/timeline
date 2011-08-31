@@ -16,7 +16,7 @@ def latlon2xy(lat, lon):
     return x, y
 
 def ms2z(ms):
-    return (ms/1000000.0 + 6000.0) * .25 + 120
+    return (ms/1000000.0 + 6000.0) * .25
 
 def application(environ, start_response):
     colors = [
@@ -25,9 +25,10 @@ def application(environ, start_response):
         "#0000ff",
         ]
     events = []
-##    evs = list(mong.Event.find({"Person":"John Yorke [GT][0001]"}))
     output = api.mongoApi(environ)
     evs = json.loads(output)['result']
+    if not evs:
+        evs = list(mong.Event.find({"Person":"John Yorke [GT][0001]"}))
     print >> sys.stderr, "DEBUG evs:", evs
     for ev in evs:
         lat = None
