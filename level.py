@@ -7,7 +7,7 @@ def application(environ, start_response):
     f = open(DOCROOT + template)
     tmpl = MarkupTemplate(f)
     f.close()
-    stream = tmpl.generate()
+    stream = tmpl.generate(special_color="#ff0000")
     output = stream.render('xhtml')
 
     status = '200 OK'
