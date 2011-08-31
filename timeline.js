@@ -11,11 +11,6 @@ doc.onLoad = function(){
     canvas.onmousewheel = function( e ){
         world_z += e.wheelDelta * 0.0025;
         glgedoc.getElement("world").setLocZ(world_z)
-//        glgedoc.getElement("worldmap").setReflectivity(0)
-//        glgedoc.getElement("worldmap").setBinaryAlpha(true)
-//        glgedoc.getElement("worldmap").setAlpha(0.3)
-//        glgedoc.getElement("worldmap_ml").setAlpha(0.2)
-//        glgedoc.getElement("worldmap").setShadeless(false)
 //        console.log("WHEEL ev:", e.wheelDelta, glgedoc.getElement("world"));
         return false;
     }
@@ -76,9 +71,6 @@ doc.onLoad = function(){
         var yinc = 0;
         var xinc = 0;
         var zinc = 0;
-        if (keys.isKeyPressed(GLGE.KI_M)) {
-            addduck();
-        }
         if (keys.isKeyPressed(GLGE.KI_W)) {
             yinc = yinc + parseFloat(trans[1]);
             xinc = xinc + parseFloat(trans[0]);
