@@ -8,7 +8,10 @@ mong = con.mong
 import api
 from pprint import PrettyPrinter
 pprint = PrettyPrinter(indent=3, width=100)
-from util import foo
+from util import foo, yearMonthDay2ms
+
+yr2ms = yearMonthDay2ms(2070, 1, 1) * 0.01
+ms2yr = 1.0/yr2ms
 
 class utils(object):
     @staticmethod
@@ -19,7 +22,9 @@ class utils(object):
         return lat * 0.125
     @staticmethod
     def ms2y(ms):
-        return 0
+        yr = ms * ms2yr + 1970
+        return (yr - 1720)
+        
 
 def application(environ, start_response):
     colors = [
@@ -31,11 +36,31 @@ def application(environ, start_response):
     output = api.mongoApi(environ)
     evs = json.loads(output)['result']
     if not evs:
+##        #test latlon calibration:
+##        events = [
+##            foo(lat=40.715, lon=-74, ms=yearMonthDay2ms(1720,1,1), color=0),
+##            foo(lat=0, lon=0, ms=yearMonthDay2ms(1720,1,1), color=0),
+##            foo(lat=0, lon=44, ms=yearMonthDay2ms(1720,1,1), color=1),
+##            foo(lat=50, lon=0, ms=yearMonthDay2ms(1720,1,1), color=2),
+##        ]
+        #fake trip:
+        newyork = mong.MPlace.find_one({"PlaceName":"New York"})['Coords']
+        newyork_lat, newyork_lon = float(newyork[0]), float(newyork[1])
+
+        london = mong.MPlace.find_one({"PlaceName":"London"})['Coords']
+        london_lat, london_lon = float(london[0]), float(london[1])
+
+        paris = mong.MPlace.find_one({"PlaceName":"Paris"})['Coords']
+        paris_lat, paris_lon = float(paris[0]), float(paris[1])
+
+        munich = mong.MPlace.find_one({"PlaceName":"Munich"})['Coords']
+        munich_lat, munich_lon = float(munich[0]), float(munich[1])
+
         events = [
-            foo(lat=40.715, lon=-74, ms=0, color=0),
-            foo(lat=0, lon=0, ms=0, color=0),
-            foo(lat=0, lon=44, ms=0, color=1),
-            foo(lat=50, lon=0, ms=0, color=2),
+            foo(lat=newyork_lat, lon=newyork_lon, ms=yearMonthDay2ms(1720,1,1), color=0),
+            foo(lat=london_lat, lon=london_lon, ms=yearMonthDay2ms(1721,1,1), color=0),
+            foo(lat=paris_lat, lon=paris_lon, ms=yearMonthDay2ms(1722,1,1), color=0),
+            foo(lat=munich_lat, lon=munich_lon, ms=yearMonthDay2ms(1722,6,1), color=0),
         ]
     print >> sys.stderr, "DEBUG evs:", evs
     for ev in evs:
