@@ -8,11 +8,7 @@ mong = con.mong
 import api
 from pprint import PrettyPrinter
 pprint = PrettyPrinter(indent=3, width=100)
-
-class foo(object):
-    def __init__(self, *args, **kw):
-        for k, v in kw.items():
-            setattr(self, k, v)
+from util import foo
 
 def application(environ, start_response):
     colors = [
