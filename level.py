@@ -44,16 +44,16 @@ def application(environ, start_response):
 ##            foo(lat=50, lon=0, ms=yearMonthDay2ms(1720,1,1), color=2),
 ##        ]
         #fake trip:
-        newyork = mong.MPlace.find_one({"PlaceName":"New York"})['Coords']
+        newyork = mong.MPlace.find_one({"PlaceName":"New York"})['Coords'].split(",")
         newyork_lat, newyork_lon = float(newyork[0]), float(newyork[1])
 
-        london = mong.MPlace.find_one({"PlaceName":"London"})['Coords']
+        london = mong.MPlace.find_one({"PlaceName":"London"})['Coords'].split(",")
         london_lat, london_lon = float(london[0]), float(london[1])
 
-        paris = mong.MPlace.find_one({"PlaceName":"Paris"})['Coords']
+        paris = mong.MPlace.find_one({"PlaceName":"Paris"})['Coords'].split(",")
         paris_lat, paris_lon = float(paris[0]), float(paris[1])
 
-        munich = mong.MPlace.find_one({"PlaceName":"Munich"})['Coords']
+        munich = mong.MPlace.find_one({"PlaceName":"Munich"})['Coords'].split(",")
         munich_lat, munich_lon = float(munich[0]), float(munich[1])
 
         events = [
