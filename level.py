@@ -10,6 +10,17 @@ from pprint import PrettyPrinter
 pprint = PrettyPrinter(indent=3, width=100)
 from util import foo
 
+class utils(object):
+    @staticmethod
+    def lon2x(lon):
+        return lon * -0.125
+    @staticmethod
+    def lat2z(lat):
+        return lat * 0.125
+    @staticmethod
+    def ms2y(ms):
+        return 0
+
 def application(environ, start_response):
     colors = [
         "#ff0000",
@@ -20,11 +31,6 @@ def application(environ, start_response):
     output = api.mongoApi(environ)
     evs = json.loads(output)['result']
     if not evs:
-##        events = [
-##            [40.71455000, -74.00712400,0,0],
-##            [53.55, 13.27, 0, 1],
-##            [31.07, 46.22, 0, 2],
-##        ]
         events = [
             foo(lat=40.715, lon=-74, ms=0, color=0),
             foo(lat=0, lon=0, ms=0, color=0),
@@ -51,14 +57,14 @@ def application(environ, start_response):
             nu.lon = lon
             nu.ms = ms
             nu.color = 0
-            events.append(foo())
+            events.append(nu)
             print >> sys.stderr, "EVENT:", events[-1]
 
     template = "/template/level.xml"
     f = open(DOCROOT + template)
     tmpl = MarkupTemplate(f)
     f.close()
-    stream = tmpl.generate(colors=colors, events=events)
+    stream = tmpl.generate(colors=colors, events=events, utils=utils)
     output = stream.render('xhtml')
 
     status = '200 OK'
